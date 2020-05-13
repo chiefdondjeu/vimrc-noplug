@@ -61,3 +61,105 @@ inoremap [ []<left>
 inoremap /*<CR> /*<CR><BS><BS>*/<ESC>O<BS>
 inoremap {<CR> {<CR>}<ESC>O
 inoremap {;<CR> {<CR>};<ESC>O
+
+function! StatuslineName(mode)
+  if a:mode == 'i'
+    set statusline=
+    set laststatus=2
+    set statusline+=%#WildMenu#
+    set statusline+=INSERT 
+    set statusline+=%#CursorColumn#
+    set statusline+=\ %f
+    set statusline+=%m
+    set statusline+=%=
+    set statusline+=\ %y
+    set statusline+= 
+    set statusline+=%#WildMenu#
+    set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
+    set statusline+=\[%{&fileformat}\]
+    set statusline+=\ -\ 
+    set statusline+=\ %p%%
+    set statusline+=\ =\ 
+    set statusline+=\ %l:%c
+    set statusline+=
+  elseif a:mode == 'r'
+    set statusline=
+    set laststatus=2
+    set statusline+=%#WildMenu#
+    set statusline+=REPLACE 
+    set statusline+=%#CursorColumn#
+    set statusline+=\ %f
+    set statusline+=%m
+    set statusline+=%=
+    set statusline+=\ %y
+    set statusline+= 
+    set statusline+=%#WildMenu#
+    set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
+    set statusline+=\[%{&fileformat}\]
+    set statusline+=\ -\ 
+    set statusline+=\ %p%%
+    set statusline+=\ =\ 
+    set statusline+=\ %l:%c
+    set statusline+=
+	elseif a:mode == 'v'
+    set statusline=
+    set laststatus=2
+    set statusline+=%#WildMenu#
+    set statusline+=VISUAL 
+    set statusline+=%#CursorColumn#
+    set statusline+=\ %f
+    set statusline+=%m
+    set statusline+=%=
+    set statusline+=\ %y
+    set statusline+= 
+    set statusline+=%#WildMenu#
+    set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
+    set statusline+=\[%{&fileformat}\]
+    set statusline+=\ -\ 
+    set statusline+=\ %p%%
+    set statusline+=\ =\ 
+    set statusline+=\ %l:%c
+    set statusline+=
+  else
+    set statusline=
+    set laststatus=2
+    set statusline+=%#WildMenu#
+    set statusline+=NORMAL 
+    set statusline+=%#CursorColumn#
+    set statusline+=\ %f
+    set statusline+=%m
+    set statusline+=%=
+    set statusline+=\ %y
+    set statusline+= 
+    set statusline+=%#WildMenu#
+    set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
+    set statusline+=\[%{&fileformat}\]
+    set statusline+=\ -\ 
+    set statusline+=\ %p%%
+    set statusline+=\ =\ 
+    set statusline+=\ %l:%c
+    set statusline+=atusline=
+  endif
+endfunction
+
+au InsertEnter * call StatuslineName(v:insertmode)
+au InsertChange * call StatuslineName(v:visualmode)
+
+
+set laststatus=2
+set statusline+=%#WildMenu#
+set statusline+=NORMAL 
+set statusline+=%#CursorColumn#
+set statusline+=\ %f
+set statusline+=%m
+set statusline+=%=
+set statusline+=\ %y
+set statusline+= 
+set statusline+=%#WildMenu#
+set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
+set statusline+=\[%{&fileformat}\]
+set statusline+=\ -\ 
+set statusline+=\ %p%%
+set statusline+=\ =\ 
+set statusline+=\ %l:%c
+set statusline+=
