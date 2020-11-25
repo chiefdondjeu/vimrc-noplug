@@ -13,8 +13,9 @@ set hidden
 " set title
 set showcmd
 set confirm 
+" set textwidth=80
 
-"" Indent
+" Indent
 set autoindent
 set smartindent
 set shiftwidth=4
@@ -22,30 +23,32 @@ set tabstop=4
 set expandtab
 set softtabstop=4
 
-"" Search
+" Search
 set incsearch
 set ignorecase
 set smartcase
 
-" set textwidth=80
+set listchars=eol:¬,trail:~,extends:>,precedes:<,space:␣
+execute 'set listchars+=tab:··'
+set list
 
 cnoremap help vert bo help<Space>
 cnoremap split vsplit<Space>
 
-"" Auto save 
+" Auto save 
 " autocmd CursorHold * update
 
-"" Shortcuts
+" Shortcuts
 map <F1> :vert bo help<CR>
 map <F2> :w<CR>
 imap <F2> <ESC>:w<CR>
 " move status line btw splits
 map ` <C-W><C-W>:<CR>
-map <F4> :bprevious<CR>
+map - :bprevious<CR>
 map <F5> :ls<CR>
-map <F6> :bnext<CR>
+map = :bnext<CR>
 
-"" Ease typing
+" Ease typing
 nnoremap ; :
 inoremap " ""<left>
 inoremap ' ''<left>
@@ -57,7 +60,7 @@ inoremap {;<CR> {<CR>};<ESC>O
 
 " au BufNewFile,BufRead,BufEnter *.cpp,*.hpp set omnifunc=omni#cpp#complete#Main
 
-"" Stalusline
+" Stalusline
 set laststatus=2
 set statusline+=%#MatchParen#
 set statusline+=\ %f
@@ -78,3 +81,4 @@ set statusline+=\ %p%%
 set statusline+=\  
 set statusline+=\ %l:%c
 set statusline+=
+ 
