@@ -20,16 +20,14 @@ set autoindent
 set smartindent
 set shiftwidth=4
 set tabstop=4
-set expandtab
-set softtabstop=4
+" set softtabstop=4
 
 " Search
 set incsearch
 set ignorecase
 set smartcase
 
-set listchars=eol:¬,trail:~,extends:>,precedes:<,space:␣
-execute 'set listchars+=tab:··'
+set listchars=eol:¬,trail:~,tab:\ \ ,space:␣
 set list
 
 cnoremap help vert bo help<Space>
