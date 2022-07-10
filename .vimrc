@@ -4,7 +4,7 @@ set encoding=UTF-8
 "set fenc=utf-8
 set termencoding=utf-8
 set t_Co=256
-:colorscheme slate
+:colorscheme jellybeans
 
 
 filetype plugin indent on
@@ -18,15 +18,19 @@ set scrolloff=8
 set nowrap
 "set textwidth=80
 ":set signcolumn=yes
+set mouse=
+set ttymouse=
 
 
 " Indentation
 set autoindent
 set smartindent
+set expandtab
 set shiftwidth=4
 set tabstop=4
-set noexpandtab
-"set softtabstop=4
+set softtabstop=4
+:command! -range=% -nargs=0 Space2Tab execute '<line1>,<line2>s#^\( \{'.&ts.'\}\)\+#\=repeat("\t", len(submatch(0))/' . &ts . ')'
+:command! -range=% -nargs=0 Tab2Space execute '<line1>,<line2>s#^\t\+#\=repeat(" ", len(submatch(0))*' . &ts . ')'
 
 
 " Search
@@ -36,12 +40,8 @@ set smartcase
 
 
 "set listchars=eol:¬,trail:~,tab:\ \ ,space:␣
-set listchars=eol:¬,trail:~,tab:\ \ 
+set listchars=eol:¬,trail:~,tab:»\ 
 set list
-
-
-"cnoremap help vert bo help<Space>
-cnoremap split vsplit<Space>
 set backspace=indent,eol,start
 
 
@@ -70,6 +70,8 @@ inoremap [ []<left>
 inoremap /*<CR> /*<CR><BS><BS>*/<ESC>O<BS>
 inoremap {<CR> {<CR>}<ESC>O
 inoremap {;<CR> {<CR>};<ESC>O
+"cnoremap help vert bo help<Space>
+cnoremap split vsplit<Space>
 
 
 "au BufNewFile,BufRead,BufEnter *.cpp,*.hpp set omnifunc=omni#cpp#complete#Main
@@ -81,30 +83,51 @@ endfunction
 
 function! StatuslineGit()
   let l:branchname = GitBranch()
-  return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
+  return strlen(l:branchname) > 0?'  '.l:branchname.' ':' '
 endfunction
 
 function! FileSize()
   return system("printf \"%'d\" ".getfsize(expand(@%)))
 endfunction
 
-" Custom Stalusline
+function! ReturnHighlightTerm(group, term)
+  let output = execute('hi ' . a:group)
+  echo matchstr(output, a:term.'=\zs\S*')
+  return matchstr(output, a:term.'=\zs\S*')
+endfunction
+
+"execute('hi StatusLineNC')
+"matchstr()
+
+" Custom stalusline
 " run `so $VIMRUNTIME/syntax/hitest.vim` to see other colors
+
+hi NormalColor ctermbg=18 ctermfg=15 cterm=bold
+hi InsertColor ctermbg=22 ctermfg=15 cterm=bold
+hi ReplaceColor ctermbg=160 ctermfg=15 cterm=bold
+hi VisualColor ctermbg=202 ctermfg=15 cterm=bold
+hi CommandColor ctermbg=0 ctermfg=15 cterm=bold
+hi GitColor ctermbg=NONE ctermfg=11
+hi ModeMsg ctermbg=NONE ctermfg=0
+
 set laststatus=2
-set statusline+=%#MatchParen#
+
+set statusline+=%#NormalColor#%{(mode()=='n')?'\ \ NORMAL\ ':''}
+set statusline+=%#InsertColor#%{(mode()=='i')?'\ \ INSERT\ ':''}
+set statusline+=%#ReplaceColor#%{(mode()=='R')?'\ \ REPLACE\ ':''}
+set statusline+=%#VisualColor#%{(mode()=='v')?'\ \ VISUAL\ ':''}
+set statusline+=%#CommandColor#%{(mode()=='c')?'\ \ COMMAND\ ':''}
+set statusline+=%#GitColor#
 let &statusline .="%{StatuslineGit()}"
-set statusline+=%#error#
+set statusline+=%#StatusLineNC#
 set statusline+=\ %f
-set statusline+=\ %#Folded#
-set statusline+=\ %m
-set statusline+=%=
-set statusline+=\ 
+set statusline+=\ \ %m
+set statusline+=%=\ 
 let &statusline .="%{FileSize()}"
 set statusline+=\ %y
-set statusline+=\ %#Folded#
-set statusline+=\ %#error#
-set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
-set statusline+=\[%{&fileformat}\]
+set statusline+=\ \ ☰
+set statusline+=\ \ %{&fileencoding?&fileencoding:&encoding}
+set statusline+=\ \[%{&fileformat}\]
 set statusline+=\ \ %p%%
 set statusline+=\ \ %l:%c
 set statusline+=\ 
