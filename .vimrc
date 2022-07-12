@@ -24,10 +24,10 @@ set mouse=a
 " --- Indentation
 set autoindent
 set smartindent
+set tabstop=8
 set shiftwidth=4
-set tabstop=4
-"set softtabstop=4
-set expandtab
+set softtabstop=4
+set noexpandtab
 :command! -range=% -nargs=0 Space2Tab execute '<line1>,<line2>s#^\( \{'.&ts.'\}\)\+#\=repeat("\t", len(submatch(0))/' . &ts . ')'
 :command! -range=% -nargs=0 Tab2Space execute '<line1>,<line2>s#^\t\+#\=repeat(" ", len(submatch(0))*' . &ts . ')'
 
