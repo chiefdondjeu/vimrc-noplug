@@ -17,23 +17,22 @@ set confirm
 set scrolloff=8
 set nowrap
 "set textwidth=80
-":set signcolumn=yes
-set mouse=
-set ttymouse=
+set signcolumn=yes
+set mouse=a
 
 
-" Indentation
+" --- Indentation
 set autoindent
 set smartindent
-set expandtab
 set shiftwidth=4
 set tabstop=4
-set softtabstop=4
+"set softtabstop=4
+set expandtab
 :command! -range=% -nargs=0 Space2Tab execute '<line1>,<line2>s#^\( \{'.&ts.'\}\)\+#\=repeat("\t", len(submatch(0))/' . &ts . ')'
 :command! -range=% -nargs=0 Tab2Space execute '<line1>,<line2>s#^\t\+#\=repeat(" ", len(submatch(0))*' . &ts . ')'
 
 
-" Search
+" --- Search
 set incsearch
 set ignorecase
 set smartcase
@@ -45,23 +44,23 @@ set list
 set backspace=indent,eol,start
 
 
-" Auto save 
+" --- Auto save 
 " autocmd CursorHold * update
 
 
-" Shortcuts
+" --- Shortcuts
 map <F1> :vert bo help<CR>
 map <F2> :w<CR>
 imap <F2> <ESC>:w<CR>
 
-" move status line btw splits
+" --- move status line btw splits
 map ` <C-W><C-W>:<CR>
 map - :bprevious<CR>
 map <F5> :ls<CR>
 map = :bnext<CR>
 
 
-" Ease typing
+" --- Ease typing
 nnoremap ; :
 inoremap " ""<left>
 inoremap ' ''<left>
@@ -74,44 +73,45 @@ inoremap {;<CR> {<CR>};<ESC>O
 cnoremap split vsplit<Space>
 
 
-"au BufNewFile,BufRead,BufEnter *.cpp,*.hpp set omnifunc=omni#cpp#complete#Main
+au BufNewFile,BufRead,BufEnter *.cpp,*.hpp set omnifunc=omni#cpp#complete#Main
 
 
 function! GitBranch()
-  return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
+	return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
 endfunction
 
 function! StatuslineGit()
-  let l:branchname = GitBranch()
-  return strlen(l:branchname) > 0?'  '.l:branchname.' ':' '
+	let l:branchname = GitBranch()
+	return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
 endfunction
 
 function! FileSize()
-  return system("printf \"%'d\" ".getfsize(expand(@%)))
+	return system("printf \"%'d\" ".getfsize(expand(@%)))
 endfunction
 
 function! ReturnHighlightTerm(group, term)
-  let output = execute('hi ' . a:group)
-  echo matchstr(output, a:term.'=\zs\S*')
-  return matchstr(output, a:term.'=\zs\S*')
+	let output = execute('hi ' . a:group)
+	echo matchstr(output, a:term.'=\zs\S*')
+	return matchstr(output, a:term.'=\zs\S*')
 endfunction
 
-"execute('hi StatusLineNC')
-"matchstr()
 
-" Custom stalusline
+" --- Custom stalusline
 " run `so $VIMRUNTIME/syntax/hitest.vim` to see other colors
+" colorschemes https://bytefluent.com/vivify/
 
+hi SignColumn ctermbg=NONE
 hi NormalColor ctermbg=18 ctermfg=15 cterm=bold
 hi InsertColor ctermbg=22 ctermfg=15 cterm=bold
 hi ReplaceColor ctermbg=160 ctermfg=15 cterm=bold
 hi VisualColor ctermbg=202 ctermfg=15 cterm=bold
 hi CommandColor ctermbg=0 ctermfg=15 cterm=bold
 hi GitColor ctermbg=NONE ctermfg=11
-hi ModeMsg ctermbg=NONE ctermfg=0
+hi StatusLineNC cterm=bold
 
 set laststatus=2
 
+set statusline=
 set statusline+=%#NormalColor#%{(mode()=='n')?'\ \ NORMAL\ ':''}
 set statusline+=%#InsertColor#%{(mode()=='i')?'\ \ INSERT\ ':''}
 set statusline+=%#ReplaceColor#%{(mode()=='R')?'\ \ REPLACE\ ':''}
@@ -129,5 +129,4 @@ set statusline+=\ \ ☰
 set statusline+=\ \ %{&fileencoding?&fileencoding:&encoding}
 set statusline+=\ \[%{&fileformat}\]
 set statusline+=\ \ %p%%
-set statusline+=\ \ %l:%c
-set statusline+=\ 
+set statusline+=\ \ %l:%c\ 
