@@ -7,6 +7,13 @@ set t_Co=256
 :colorscheme jellybeans
 
 
+"execute pathogen#infect()
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 0
+"let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_wq = 0
+
+
 filetype plugin indent on
 set nu
 set ruler
@@ -28,6 +35,7 @@ set tabstop=4
 set shiftwidth=4
 "set softtabstop=4
 set expandtab
+
 :command! -range=% -nargs=0 Space2Tab execute '<line1>,<line2>s#^\( \{'.&ts.'\}\)\+#\=repeat("\t", len(submatch(0))/' . &ts . ')'
 :command! -range=% -nargs=0 Tab2Space execute '<line1>,<line2>s#^\t\+#\=repeat(" ", len(submatch(0))*' . &ts . ')'
 
@@ -55,9 +63,9 @@ imap <F2> <ESC>:w<CR>
 
 " --- move status line btw splits
 map ` <C-W><C-W>:<CR>
-map - :bprevious<CR>
+map <F4> :bprevious<CR>
 map <F5> :ls<CR>
-map = :bnext<CR>
+map <F6> :bnext<CR>
 
 
 " --- Ease typing
@@ -67,13 +75,13 @@ inoremap ' ''<left>
 inoremap ( ()<left>
 inoremap [ []<left>
 inoremap /*<CR> /*<CR><BS><BS>*/<ESC>O<BS>
-inoremap {<CR> {<CR>}<ESC>O
-inoremap {;<CR> {<CR>};<ESC>O
+"inoremap {<CR> {<CR>}<ESC>O
+"inoremap {;<CR> {<CR>};<ESC>O
 "cnoremap help vert bo help<Space>
 cnoremap split vsplit<Space>
 
 
-au BufNewFile,BufRead,BufEnter *.cpp,*.hpp set omnifunc=omni#cpp#complete#Main
+"au BufNewFile,BufRead,BufEnter *.cpp,*.hpp set omnifunc=omni#cpp#complete#Main
 
 
 function! GitBranch()
@@ -111,8 +119,7 @@ hi StatusLineNC cterm=bold
 
 set laststatus=2
 
-set statusline=
-set statusline+=%#NormalColor#%{(mode()=='n')?'\ \ NORMAL\ ':''}
+set statusline=%#NormalColor#%{(mode()=='n')?'\ \ NORMAL\ ':''}
 set statusline+=%#InsertColor#%{(mode()=='i')?'\ \ INSERT\ ':''}
 set statusline+=%#ReplaceColor#%{(mode()=='R')?'\ \ REPLACE\ ':''}
 set statusline+=%#VisualColor#%{(mode()=='v')?'\ \ VISUAL\ ':''}
@@ -130,3 +137,6 @@ set statusline+=\ \ %{&fileencoding?&fileencoding:&encoding}
 set statusline+=\ \[%{&fileformat}\]
 set statusline+=\ \ %p%%
 set statusline+=\ \ %l:%c\ 
+
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
