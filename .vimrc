@@ -93,10 +93,6 @@ function! StatuslineGit()
 	return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
 endfunction
 
-function! FileSize()
-	return system("printf \"%'d\" ".getfsize(expand(@%)))
-endfunction
-
 function! ReturnHighlightTerm(group, term)
 	let output = execute('hi ' . a:group)
 	echo matchstr(output, a:term.'=\zs\S*')
@@ -130,7 +126,7 @@ set statusline+=%#StatusLineNC#
 set statusline+=\ %f
 set statusline+=\ \ %m
 set statusline+=%=\ 
-let &statusline .="%{FileSize()}"
+let &statusline .="%{getfsize(expand(@%))}"
 set statusline+=\ %y
 set statusline+=\ \ ☰
 set statusline+=\ \ %{&fileencoding?&fileencoding:&encoding}
